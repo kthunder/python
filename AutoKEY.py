@@ -1,6 +1,7 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 # 导入pynput库的keyboard模块
 from pynput.keyboard import Key, Listener, Controller
+from conf import keyMap
 
 scheduler = BlockingScheduler()
 
@@ -21,12 +22,6 @@ def on_press(key):
 
 
 if __name__ == "__main__":
-    keyMap = {
-        "q": 1,
-        "w": 1.2,
-        "e": 1.3,
-        "r": 1.4,
-    }
     Listener(on_press=on_press).start()
     for key, value in keyMap.items():
         scheduler.add_job(press_key, 'interval', args=key, seconds=value)
