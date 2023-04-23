@@ -1,7 +1,7 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 # 导入pynput库的keyboard模块
 from pynput.keyboard import Key, Listener, Controller
-from conf import keyMap
+from AUTO_KEY.conf import keyMap
 
 scheduler = BlockingScheduler()
 
