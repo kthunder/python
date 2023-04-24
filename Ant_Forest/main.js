@@ -1,5 +1,5 @@
 function clickP(x, y) {
-	//toastLog("click point(" + x + "," + y + ")");
+	// toastLog("click point(" + x + "," + y + ")");
 	return press(x, y, 1);
 }
 
