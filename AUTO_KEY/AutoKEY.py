@@ -1,13 +1,12 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 # 导入pynput库的keyboard模块
 from pynput.keyboard import Key, Listener, Controller
-from AUTO_KEY.conf import keyMap
+from conf import keyMap
 
 scheduler = BlockingScheduler()
 
 keyboard = Controller()
 g_flag = False
-
 
 def press_key(key):
     global g_flag
@@ -16,10 +15,15 @@ def press_key(key):
 
 
 def on_press(key):
-    if key.char == 'f':
-        global g_flag
-        g_flag = not g_flag
-
+    try:
+        if key.char == 'f':
+            global g_flag
+            g_flag = not g_flag
+            print("flag{}",g_flag)
+    except Exception as e:
+        print(e)
+    finally:
+        pass
 
 if __name__ == "__main__":
     Listener(on_press=on_press).start()
