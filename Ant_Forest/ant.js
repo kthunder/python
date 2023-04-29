@@ -4,12 +4,12 @@ function main() {
         text("立即开始").findOne(1000).click()
     });
     res = requestScreenCapture()
-    // app.startActivity({
-    //     action: 'VIEW',
-    //     data: 'alipays://platformapi/startapp?appId=60000002',
-    //     packageName: 'com.eg.android.AlipayGphone'
-    // })
-    app.launchApp("支付宝")
+     app.startActivity({
+         action: 'VIEW',
+         data: 'alipays://platformapi/startapp?appId=60000002',
+         packageName: 'com.eg.android.AlipayGphone'
+     })
+    //app.launchApp("支付宝")
     sleep(2000)
     toastLog("开始收能量")
     energyHarvester()
@@ -49,7 +49,7 @@ function energyRain() {
         cilckCenter(text("返回我的森林").findOne());
     }
 
-    for (let index = 0; index < 3; index++) {
+    for (let index = 0; index < 1; index++) {
         cilckCenter(text("去收取").findOne(1000));
         cilckCenter(text("去赠送").findOne(1000));
         cilckCenter(text("送TA机会").findOne(1000));
@@ -60,8 +60,8 @@ function energyRain() {
                     clickEnergy()
                 }
             });
-            thread.join(15000)
-            sleep(16000)
+            thread.join(12000)
+            sleep(12000)
         }
     }
 }
