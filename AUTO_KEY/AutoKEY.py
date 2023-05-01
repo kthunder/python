@@ -8,6 +8,7 @@ scheduler = BlockingScheduler()
 keyboard = Controller()
 g_flag = False
 
+
 def press_key(key):
     global g_flag
     if g_flag:
@@ -15,15 +16,16 @@ def press_key(key):
 
 
 def on_press(key):
-    try:
-        if key.char == 'f':
+    print(key.__dict__)
+    match (hasattr(key, "vk") and key.vk, hasattr(key, "char") and key.char):
+        # Ctrl+1
+        case (49, None):
             global g_flag
             g_flag = not g_flag
-            print("flag{}",g_flag)
-    except Exception as e:
-        print(e)
-    finally:
-        pass
+            print("flag{}", g_flag)
+        case _:
+            pass
+
 
 if __name__ == "__main__":
     Listener(on_press=on_press).start()

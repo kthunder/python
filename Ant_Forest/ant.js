@@ -4,11 +4,11 @@ function main() {
         text("立即开始").findOne(1000).click()
     });
     res = requestScreenCapture()
-     app.startActivity({
-         action: 'VIEW',
-         data: 'alipays://platformapi/startapp?appId=60000002',
-         packageName: 'com.eg.android.AlipayGphone'
-     })
+    app.startActivity({
+        action: 'VIEW',
+        data: 'alipays://platformapi/startapp?appId=60000002',
+        packageName: 'com.eg.android.AlipayGphone'
+    })
     //app.launchApp("支付宝")
     sleep(2000)
     toastLog("开始收能量")
@@ -60,8 +60,9 @@ function energyRain() {
                     clickEnergy()
                 }
             });
-            thread.join(12000)
-            sleep(12000)
+            setTimeout(function () {
+                threads.shutDownAll()
+            }, 12000);
         }
     }
 }
