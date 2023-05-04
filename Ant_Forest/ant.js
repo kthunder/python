@@ -10,7 +10,8 @@ function main() {
         packageName: 'com.eg.android.AlipayGphone'
     })
     //app.launchApp("支付宝")
-    sleep(2000)
+    textContains("g").waitFor();
+    sleep(1000)
     toastLog("开始收能量")
     energyHarvester()
     sleep(1000)
@@ -25,7 +26,9 @@ function energyHarvester() {
         click(537, 1990)
         findEnergy()
     }
+
     do {
+        textContains("g").findOne(3000);
         sleep(2000)
         while (clickEnergy()) {
             sleep(100)
@@ -49,20 +52,30 @@ function energyRain() {
         cilckCenter(text("返回我的森林").findOne());
     }
 
-    for (let index = 0; index < 1; index++) {
-        cilckCenter(text("去收取").findOne(1000));
-        cilckCenter(text("去赠送").findOne(1000));
-        cilckCenter(text("送TA机会").findOne(1000));
+    for (let index = 0; index < 3; index++) {
+        if (text("去收取").findOne(1000)) {
+            cilckCenter(text("去收取").findOne(1000));
+        } 
+        else if (text("去赠送").findOne(1000)){
+            cilckCenter(text("去赠送").findOne(1000));
+            sleep(500)
+            cilckCenter(text("送TA机会").findOne(1000));
+        }
+        else {
+            return false
+        }
+
         if (text("立即开启").exists()) {
             cilckCenter(text("立即开启").findOne());
-            var thread = threads.start(function () {
+            let thread = threads.start(function () {
                 while (1) {
                     clickEnergy()
                 }
             });
             setTimeout(function () {
-                threads.shutDownAll()
-            }, 12000);
+                thread.interrupt()
+            }, 15000);
+            sleep(16000)
         }
     }
 }
