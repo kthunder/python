@@ -65,6 +65,8 @@ function energyRain() {
             return false
         }
 
+        sleep(500)
+
         if (text("立即开启").exists()) {
             cilckCenter(text("立即开启").findOne());
             let thread = threads.start(function () {
