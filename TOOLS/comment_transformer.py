@@ -76,7 +76,7 @@ class Tokenizer:
         while (True):
             raw_char = self.next_char()
             if self.verbose:
-                print(f"{current}  ===[{repr(c)}]==>  ", end='')
+                print(f"{current:<25}  ===[{repr(raw_char):^5}]==>  ", end='')
 
             # Handle ANY char
             if raw_char not in table[current]:
@@ -94,7 +94,7 @@ class Tokenizer:
             last = current
             current = table[current][c]
             if self.verbose:
-                print(current)
+                print(f"{current:<25}")
 
             # Main logic
             if current == State.ST_ONE_LINE_CMT:
@@ -124,7 +124,5 @@ test_str = """
 
 # TODO: '*/'  =>  '* /'
 
-tk = Tokenizer(test_str)
+tk = Tokenizer(test_str, verbose=True)
 print(tk.trasform())
-# for _ in range(50):
-#     print(repr(tk.next_char()))
