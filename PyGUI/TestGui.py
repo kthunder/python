@@ -16,6 +16,13 @@ class MyWidget(QMainWindow):
         act_quit = menu_control.addAction("Action-Quit")
         act_quit.triggered.connect(self.close)
 
+        widget = QLabel("Hello")
+        font = widget.font()
+        font.setPointSize(30)
+        widget.setFont(font)
+        # widget.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.setCentralWidget(widget)
+
         self.statusBar().showMessage("程序已就绪...")
         self.show()
 
