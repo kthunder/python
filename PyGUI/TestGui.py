@@ -12,13 +12,14 @@ class MyWidget(QMainWindow):
         self.setWindowTitle("myapp")
         self.setToolTip("ToolTip")
         QToolTip.setFont(QFont("微软雅黑", 12))
-        menu_control = self.menuBar().addMenu("Contorl")
-        act_quit = menu_control.addAction("quit")
+        menu_control = self.menuBar().addMenu("Menu")
+        act_quit = menu_control.addAction("Action-Quit")
         act_quit.triggered.connect(self.close)
+
+        self.statusBar().showMessage("程序已就绪...")
+        self.show()
 
 
 myapp = QApplication(sys.argv)
-mywidget = MyWidget()
-mywidget.show()
-mywidget.statusBar().showMessage("程序已就绪...")
+widget = MyWidget()
 sys.exit(myapp.exec_())
