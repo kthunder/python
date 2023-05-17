@@ -1,3 +1,13 @@
+let currentEngine = engines.myEngine()
+let currentSource = engines.myEngine().getSource() + ''
+engines.all().forEach(engine => {
+    let compareSource = engine.getSource() + ''
+    if (currentEngine.id != engine.id && compareSource === currentSource) {
+        // 强制关闭同名的脚本
+        engine.forceStop()
+    }
+})
+
 function main() {
     auto.waitFor()
     threads.start(function () {
@@ -9,7 +19,6 @@ function main() {
         data: 'alipays://platformapi/startapp?appId=60000002',
         packageName: 'com.eg.android.AlipayGphone'
     })
-    //app.launchApp("支付宝")
     textContains("g").waitFor();
     sleep(1000)
     toastLog("开始收能量")
@@ -21,17 +30,18 @@ function main() {
 }
 
 function energyHarvester() {
-    if (text('沙柳皮肤').exists() || text('山杏皮肤').exists()) {
-        // toast('沙柳和能量无法识别，下一个')
-        click(537, 1990)
-        findEnergy()
-    }
-
     do {
-        textContains("g").findOne(3000);
-        sleep(2000)
+        textContains("g").findOne(2000);
+        sleep(1000)
+        if (text('沙柳皮肤').exists() || text('山杏皮肤').exists()) {
+            // toast('沙柳和能量无法识别，下一个')
+            click(537, 1990)
+            findEnergy()
+            textContains("g").findOne(2000);
+            sleep(1000)
+        }
         while (clickEnergy()) {
-            sleep(100)
+            sleep(200)
         }
     } while (findEnergy());
 }
@@ -55,8 +65,8 @@ function energyRain() {
     for (let index = 0; index < 3; index++) {
         if (text("去收取").findOne(1000)) {
             cilckCenter(text("去收取").findOne(1000));
-        } 
-        else if (text("去赠送").findOne(1000)){
+        }
+        else if (text("去赠送").findOne(1000)) {
             cilckCenter(text("去赠送").findOne(1000));
             sleep(500)
             cilckCenter(text("送TA机会").findOne(1000));
@@ -69,15 +79,12 @@ function energyRain() {
 
         if (text("立即开启").exists()) {
             cilckCenter(text("立即开启").findOne());
-            let thread = threads.start(function () {
-                while (1) {
-                    clickEnergy()
-                }
-            });
-            setTimeout(function () {
-                thread.interrupt()
-            }, 15000);
-            sleep(16000)
+            let BeginTime = new Date().getTime()
+            let ElapsedTime = 0
+            while (ElapsedTime < 15000) {
+                clickEnergy()
+                ElapsedTime = new Date().getTime() - BeginTime
+            }
         }
     }
 }
