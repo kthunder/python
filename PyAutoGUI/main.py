@@ -19,6 +19,8 @@ def fill_cell(x, y, info):
     time.sleep(0.2)
     pyautogui.click(3260,200)
     time.sleep(0.2)
+    pyautogui.click(3260,200)
+    time.sleep(0.2)
     pyautogui.click(x, y)
     time.sleep(0.2)
     if(len(info) > 4):
@@ -49,11 +51,11 @@ if __name__ == "__main__":
     # 监听按键，用来暂停 操作
     Listener(on_press=on_press).start()
 
-    for _ in range(0,2):
+    for _ in range(0,75):
         if _ < 5:
             time.sleep(1)
             print(pyautogui.position())
         if g_flag:
-            fill_cell(1596, 1247, "参见日志文件：Mcl_Trgmux_Normal_Test_SST.log")
+            fill_cell(1596, 1247, "参见实测日志Smu_test/Smu_Normal_Test.txt")
             pass
 

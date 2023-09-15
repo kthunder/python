@@ -44,5 +44,9 @@ def work_hour_add(entryTime, workContent, workHour):
 if __name__ == "__main__":
     login("konglei","kl1999714")
     work_hour_list(1, 1,"88")
-    # work_hour_add("2023-08-21", "SIT测试", 8.5)
+    work_hour_add("2023-09-04", "集成测试文档日志整理", 8.5)
+    work_hour_add("2023-09-05", "集成测试文档日志整理", 10)
+    work_hour_add("2023-09-06", "集成测试文档日志整理", 8.5)
+    work_hour_add("2023-09-07", "集成测试文档日志整理", 10)
+    work_hour_add("2023-09-08", "集成测试文档日志整理", 8.5)
     pass
