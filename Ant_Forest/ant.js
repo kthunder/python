@@ -8,26 +8,83 @@ engines.all().forEach(engine => {
     }
 })
 
-var window = floaty.rawWindow(
-    <frame>
-        <text id="text" text="+" textColor="red" />
-    </frame>
-);
+// // 获取状态栏高度
+// let offset = -getStatusBarHeightCompat()
+// // console.log(offset);
 
-// tool functions
-function displayP(x, y) {
-    window.setPosition(x - 13, y - 27)
+
+// let window = floaty.rawWindow(
+//     <canvas id="canvas" layout_weight="1" />
+// );
+
+// // 设置悬浮窗位置
+// ui.post(() => {
+//     window.setPosition(0, offset)
+//     window.setSize(device.width, device.height)
+//     window.setTouchable(false)
+// })
+
+// let Typeface = android.graphics.Typeface
+// let paint = new Paint()
+// paint.setTypeface(Typeface.DEFAULT_BOLD)
+// paint.setTextAlign(Paint.Align.LEFT)
+// paint.setAntiAlias(true)
+// paint.setStrokeJoin(Paint.Join.ROUND)
+// paint.setDither(true)
+// paint.setStrokeWidth(5)
+// paint.setStyle(Paint.Style.STROKE)
+// paint.setARGB(255, 0xFF, 0x00, 0x00)
+
+// window.canvas.on('draw', function (canvas) {
+//     canvas.drawColor(0xFFFFFF, android.graphics.PorterDuff.Mode.CLEAR)
+//     // drawX(500, 500,canvas)
+//     // window.canvas.removeAllListeners()
+//     drawX(800, 1800, canvas)
+// })
+
+// function drawX(x, y, canvas) {
+//     canvas.drawLine(x, y - 50, x, y + 50, paint);
+//     canvas.drawLine(x - 50, y, x + 50, y, paint);
+// }
+
+// /**
+//  * 获取状态栏高度
+//  *
+//  * @returns
+//  */
+// function getStatusBarHeightCompat() {
+//     let result = 0
+//     let resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android")
+//     if (resId > 0) {
+//         result = context.getResources().getDimensionPixelOffset(resId)
+//     }
+//     if (result <= 0) {
+//         result = context.getResources().getDimensionPixelOffset(R.dimen.dimen_25dp)
+//     }
+//     return result
+// }
+
+
+function OcrClick(text) {
+    img = captureScreen()
+    // let start = new Date()
+    result = paddle.ocr(img);
+    // toastLog('耗时' + (new Date() - start) + 'ms')
+    // log(result);
+    let btn = result.find(e => e.text.includes(text))
+    if (btn) click(btn.bounds)
+    img.recycle()
+    return btn ? true : false
 }
 
 function clickP(x, y) {
-    displayP(x, y)
     return press(x, y, 1);
 }
 
 function clickEnergy() {
     // toastLog("开始查找能量球")
     point = findColor(captureScreen(), "#DEFF00", {
-        region: [150, 600, 800, 150],
+        region: [200, 700, 1000, 400],
     })
 
     return point ? clickP(point.x, point.y) : false
@@ -62,30 +119,28 @@ function findButtonByOCR(text, region) {
 }
 
 function findEnergy() {
-    button = findButtonByOCR("找能量", [800, 1500, 280, 200])
-    cilckCenter(button)
-    return button ? true : false
+    return OcrClick("找能量")
 }
 
 function collectEnergy() {
-    button = findButtonByOCR("一键收")
-    cilckCenter(button)
-    return button ? true : false
+    return OcrClick("键收")
 }
 
 // main function
 function main() {
     auto.waitFor()
     threads.start(function () {
-        text("立即开始").findOne(1000).click()
-    });
-    res = requestScreenCapture()
+        sleep(300)
+        click(1200, 2040)
+    })
+    requestScreenCapture()
 
     app.startActivity({
         action: 'VIEW',
         data: 'alipays://platformapi/startapp?appId=60000002',
         packageName: 'com.eg.android.AlipayGphone'
     })
+
     textContains("去保护").waitFor();
     sleep(2000)
     energyHarvester()
@@ -98,17 +153,11 @@ function energyHarvester() {
     do {
         textContains("g").findOne(2000);
         sleep(1000)
-        // if (text('沙柳皮肤').exists() || text('山杏皮肤').exists()) {
-        //     // toast('沙柳和能量无法识别，下一个')
-        //     click(537, 1990)
-        //     findEnergy()
-        //     textContains("g").findOne(2000);
-        //     sleep(1000)
-        // }
         if (text('找能量共获得').exists()) {
             toastLog("找能量结束")
         } else {
             toastLog("开始收集能量")
+            sleep(1000)
             while (collectEnergy());
             sleep(1000)
             while (clickEnergy());
@@ -146,7 +195,7 @@ function energyRain() {
             cilckCenter(text("立即开启").findOne());
             let BeginTime = new Date().getTime()
             let ElapsedTime = 0
-            while (ElapsedTime < 15000) {
+            while (ElapsedTime < 18000) {
                 clickEnergy()
                 sleep(20)
                 ElapsedTime = new Date().getTime() - BeginTime
@@ -154,6 +203,4 @@ function energyRain() {
         }
     }
 }
-
-
 main()
